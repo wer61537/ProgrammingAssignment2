@@ -7,6 +7,37 @@ m
 #call cache matrix function
 m_cache <- makeCacheMatrix(m)
 #check that is the same as m
-identical(m,m_cache$get())
+identical(m,m_cache$getMatrix())
+#timing for getInverse method in makeCacheMatrix
+startTime <-proc.time()
+m_cache$getInverse()
+proc.time()-startTime
+#user  system elapsed 
+#0.00    0.02    0.01
 
+#timing for cacheSolve first call
+startTime <-proc.time()
 cacheSolve(m_cache)
+proc.time()-startTime
+#user  system elapsed 
+#0.01    0.00    0.02
+
+#timing for cacheSolve 2nd call
+startTime <-proc.time()
+cacheSolve(m_cache)
+proc.time()-startTime
+#user  system elapsed 
+#0.00    0.02    0.02
+
+#not seeing much of a difference
+
+#check that inverse calculated both ways is the same
+#first iteration is false, 2nd is true
+identical(m_cache$getInverse(),cacheSolve(m_cache))
+
+#another example
+m2<-0.001*diag(1,5)
+m_cache2 <- makeCacheMatrix(m2)
+#may not work before cached; 2nd try works
+identical(m_cache2$getInverse(),cacheSolve(m_cache2))
+

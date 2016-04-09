@@ -1,30 +1,47 @@
-# Matrix inversion is usually a costly computation and there may be some benefit
-# to caching the inverse of a matrix rather than compute it repeatedly. The
-# following two functions are used to cache the inverse of a matrix.
-
+##=============================================================
 ## Function: makeCacheMatrix
 ## Args:
-##
+##   x: a matrix  
+## Returns:
+##    a list.  Enter m_cache at prompt to see of internal functions
+##      $setMatrix
+##      $getMatrix
+##      $setInverse
+##      $getInverse
 ## Purpose:
-##   matrix object that caches its inverse
-
+##   function that checks for previous calc of matric inverse
+##     if exist then use cached inverse
+##=============================================================
 makeCacheMatrix <- function(x = matrix()) {
   m <- NULL
   
+  ## =========================
+  ##  setters
+  ## =========================
   #create set method to matrix
   setMatrix <- function(y) {
     x <<- y
     m <<- NULL
   }
   
+  #create set matrix inverse
+  setInverse <- function(inverse) m <<- inverse
+  ## =========================
+  ##  setters
+  ## =========================
+  
+  
+  ## =========================
+  ##  getters
+  ## =========================
   #create get method to matrix
   getMatrix <- function() x
   
-  #create set matrix inverse
-  setInverse <- function(inverse) m <<- inverse
-  
   #create get matrix inverse
   getInverse <- function() m
+  ## =========================
+  ##  getters
+  ## =========================
   
   #create list of methods to present to user
   list(
@@ -35,19 +52,19 @@ makeCacheMatrix <- function(x = matrix()) {
       )
 }
 
-
-# The following function returns the inverse of the matrix. It first checks if
-# the inverse has already been computed. If so, it gets the result and skips the
-# computation. If not, it computes the inverse, sets the value in the cache via
-# setinverse function.
-
+##=============================================================
 ## Function: cacheSolve
 ## Args:
-##
+##   x:  a matrix   
+## Returns:
+##    Matrix object that is inverse of matrix passed in as argument
 ## Purpose:
-##   matrix object that caches its inverse
-
-# This function assumes that the matrix is always invertible.
+##   Check for previously calculated inverse with getInverse
+##     if missing then calcuate it and uses setInverse to store it
+##       in passed in matrix's inverse property
+## Note:
+##    This function assumes that the matrix is always invertible.
+##=============================================================
 cacheSolve <- function(x, ...) {
   #get inverse property of matrix passed as argument
   inv <- x$getInverse()
@@ -60,13 +77,13 @@ cacheSolve <- function(x, ...) {
     return(inv)
   }
   #get the matrix detail
-  data <- x$getMatrix()
+  mtrx <- x$getMatrix()
   
-  inv <- solve(data, ...)
+  newInverse <- solve(mtrx, ...)
   
   #set inverse property of matrix
-  x$setInverse(inv)
+  x$setInverse(newInverse)
   
-  #return newly calculated invers
-  inv
+  #return newly calculated inverse matrix
+  newInverse
 }
