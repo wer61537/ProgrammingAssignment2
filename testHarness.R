@@ -8,6 +8,7 @@ m
 m_cache <- makeCacheMatrix(m)
 #check that is the same as m
 identical(m,m_cache$getMatrix())
+<<<<<<< HEAD
 #timing for getInverse method in makeCacheMatrix
 startTime <-proc.time()
 m_cache$getInverse()
@@ -33,6 +34,9 @@ proc.time()-startTime
 
 #check that inverse calculated both ways is the same
 #first iteration is false, 2nd is true
+=======
+#check that inverse calculated both ways is the same
+>>>>>>> b62dbd7f804240006296353217d0c0ad3ddaa655
 identical(m_cache$getInverse(),cacheSolve(m_cache))
 
 #another example
